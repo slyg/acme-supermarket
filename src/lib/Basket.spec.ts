@@ -15,5 +15,22 @@ describe("The Basket class", () => {
 
       expect(basket.total()).toBe(0);
     });
+
+    it("should apply the pricing rules when the total is requested", () => {
+      const sum: Basket.Rule = (acc, item) => ({
+        ...acc,
+        amount: acc.amount + item.price
+      });
+      const rules = [sum, sum];
+      const basket = new Basket(rules);
+      const item = { code: "DOH", price: 1 };
+
+      expect(
+        basket
+          .add(item)
+          .add(item)
+          .total()
+      ).toBe(4);
+    });
   });
 });

@@ -1,5 +1,5 @@
 declare class Basket {
-  constructor(pricingRules: any[]);
+  constructor(pricingRules: Basket.Rule[]);
 
   add(item: Basket.Item): this;
   total(): Basket.Price;
@@ -12,5 +12,14 @@ declare namespace Basket {
   export interface Item {
     code: Code;
     price: Price;
+  }
+
+  export interface RuleResult {
+    amount: Price;
+    [key: string]: any;
+  }
+
+  export interface Rule {
+    (r: RuleResult, i: Item): RuleResult;
   }
 }

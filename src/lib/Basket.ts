@@ -1,5 +1,10 @@
 /// <reference path="./basket.d.ts" />
 
+const sumAmounts = (
+  acc: Basket.Price,
+  result: Basket.RuleResult
+): Basket.Price => acc + result.amount;
+
 class Basket {
   items: Array<Basket.Item> = [];
   pricingRules: Array<any>;
@@ -14,7 +19,9 @@ class Basket {
   }
 
   total() {
-    return 0;
+    return this.pricingRules
+      .map(rule => this.items.reduce(rule, { amount: 0 }))
+      .reduce(sumAmounts, 0);
   }
 }
 
