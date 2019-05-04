@@ -5,6 +5,8 @@ const sumAmounts = (
   result: Basket.RuleResult
 ): Basket.Price => acc + result.amount;
 
+const initialItem: Basket.Item = { code: "@@init", price: 0 };
+
 class Basket {
   items: Array<Basket.Item> = [];
   pricingRules: Array<any>;
@@ -20,7 +22,7 @@ class Basket {
 
   total() {
     return this.pricingRules
-      .map(rule => this.items.reduce(rule, { amount: 0 }))
+      .map(rule => [initialItem, ...this.items].reduce(rule, { amount: 0 }))
       .reduce(sumAmounts, 0);
   }
 }

@@ -32,5 +32,22 @@ describe("The Basket class", () => {
           .total()
       ).toBe(4);
     });
+
+    it("should start the items list with a dumb product", () => {
+      const rule: Basket.Rule = jest.fn(() => ({
+        amount: 0
+      }));
+      const dumbProduct = { code: "@@init", price: 0 };
+      const basket = new Basket([rule]);
+      basket.total();
+      expect(rule).toHaveBeenCalledWith(
+        {
+          amount: 0
+        },
+        dumbProduct,
+        0,
+        [dumbProduct]
+      );
+    });
   });
 });
