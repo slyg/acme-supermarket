@@ -36,3 +36,44 @@ Test Data:
 
     Basket: SR1, SR1, FR1, SR1
     Total price expected: £16.61
+
+## Comments about the solution
+
+### Typescript
+
+I chose to use typescript as it is fairly used now and helps shape much better codebases. And as a side effect it provides IDE documentation, should this class be used in a real project... just kidding :)
+
+### Basket class
+
+The `Basket` class is rather simple and relies on the pricing computation rules to return the total price. I chose to extract all computation out of the class (event the basic sum), as it is simply an api and may not be expected to do more than being a naive interface.
+
+Also, the computation of the total price is performed only when the `total()` method is called. It mimics a sort of lazy approach, even though in this case it doesn't really make a difference.
+
+### Pricing rules
+
+We discussed a lot about redux during the phone call, so I thought it would be consistant to use a functional approach _a la_ redux.
+
+So all these rules look like redux reducers on purpose: each of them computes a part of the total amount, which may be a negative number in the case of a discount.
+
+The `Basket` class reduces these amounts to a single one.
+
+To a certain extent, this structure may ease the addition of new pricing rules.
+
+### Tests
+
+Pricing rules are unit tested as well as the `Basket` class.
+
+You'll find a `bdd.spec.ts` file containing the tests corresponding to the problem description.
+
+### Running the code
+
+By convention, you may install the dependencies and run the tests as following:
+
+```bash
+$ npm i
+$ npm test -- --verbose # I'm sure you want to see the tests descriptions 👀
+```
+
+### Other consideration
+
+JS may not be the best suited language to compute numbers: I'd consider using a library like `bignumber.js`, or even delegating the computation to a server.
